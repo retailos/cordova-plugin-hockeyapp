@@ -2,6 +2,7 @@ package org.nypr.cordova.hockeyappplugin;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.*;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
@@ -18,13 +19,19 @@ import android.util.Log;
 
 public class HockeyAppPlugin extends CordovaPlugin {
 	protected static final String LOG_TAG = "HockeyAppPlugin";
-	
+	private String hockeyAppId;
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
+        
+        int appResId = cordova.getActivity().getResources().getIdentifier("hockey_app_id", "string", cordova.getActivity().getPackageName());
++        hockeyAppId = cordova.getActivity().getString(appResId);
+        if(isHockeyAppIdValid()) {
 	  _checkForCrashes();
 	  _checkForUpdates();
+        Tracking.startUsage(cordova.getActivity());
 		Log.d(LOG_TAG, "HockeyApp Plugin initialized");
+        }
 	}
 	
 	@Override
@@ -66,20 +73,19 @@ public class HockeyAppPlugin extends CordovaPlugin {
 	
 	protected void _checkForCrashes() {
 		Log.d(LOG_TAG, "HockeyApp Plugin checking for crashes");
-		String hockeyAppId="__HOCKEY_APP_KEY__"; // replaced by build script. better to pull from a a config file?
-		if(hockeyAppId!=null && !hockeyAppId.equals("") && !hockeyAppId.contains("HOCKEY_APP_KEY")){
-			CrashManager.register(cordova.getActivity(), hockeyAppId);
-		}
+        CrashManager.register(cordova.getActivity(), hockeyAppId);
+		
 	}
 
 	protected void _checkForUpdates() {
 		// Remove this for store builds!
 		//__HOCKEY_APP_UPDATE_ACTIVE_START__
 		Log.d(LOG_TAG, "HockeyApp Plugin checking for updates");
-		String hockeyAppId="__HOCKEY_APP_KEY__";
-		if(hockeyAppId!=null && !hockeyAppId.equals("") && !hockeyAppId.contains("HOCKEY_APP_KEY")){		
-			UpdateManager.register(cordova.getActivity(), hockeyAppId);
-		}
+		UpdateManager.register(cordova.getActivity(), hockeyAppId);
 		//__HOCKEY_APP_UPDATE_ACTIVE_END__
 	}
+    
+    protected boolean isHockeyAppIdValid() { 
+        return hockeyAppId!=null || !hockeyAppId.equals("");
+     }
 }
