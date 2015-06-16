@@ -8,7 +8,7 @@ version="0.1.1">
 <description>HockeyApp Plugin</description>
 <license>Apache 2.0</license>
 <keywords>hockeyapp,crash reporting,update</keywords>
-<repo>git@git.wnyc.net:mobile/cordova/cordova-plugin-hockeyapp.git</repo>
+<repo>git@git.pradeepkumargali.net:mobile/cordova/cordova-plugin-hockeyapp.git</repo>
 
 <js-module src="www/hockeyapp.js" name="HockeyApp">
   <clobbers target="hockeyapp"/>
