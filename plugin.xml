@@ -23,7 +23,7 @@ version="0.1.1">
             <param name="onload" value="true" />
         </feature>
     </config-file>
-    <source-file src="platforms/android/res/values/hockeyappplugin.xml" target-dir="res/values" />
+    <source-file src="src/android/res/values/hockeyappplugin.xml" target-dir="res/values" />
    <config-file target="res/values/hockeyappplugin.xml" parent="/*">
      <string name="hockey_app_id">$HOCKEY_APP_ID</string>
    </config-file>
