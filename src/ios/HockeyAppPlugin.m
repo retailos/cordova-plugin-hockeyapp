@@ -75,18 +75,13 @@ static NSString *const kHockeyAppPluginAppReachedTerminateEventKey = @"AppReache
 }
 
 - (NSString *)hockeyAppIDFromPropertyList {
-    // Get current bundle identifier
-	NSBundle *bundle = [NSBundle mainBundle];
-	NSString *bundleIdentifier = bundle.infoDictionary[(__bridge NSString *)kCFBundleIdentifierKey];
-	
-	// Load the matching plist from HockeyAppID.plist
-    NSString *path = [bundle pathForResource:@"HockeyAppID" ofType:@"plist" inDirectory:@"www"];
-    if(path) {
-        NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
-        if(dictionary) {
-            NSString *appID = dictionary[bundleIdentifier];
-            return appID;
-        }
+    
+    NSString *bundleHockeyApp = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HockeyAppID"];
+   
+    if ([bundleHockeyApp length] > 0) {
+        return bundleHockeyApp;
+    } else {
+        return nil;
     }
     
     return nil;
