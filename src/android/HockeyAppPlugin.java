@@ -19,16 +19,19 @@ import android.util.Log;
 
 public class HockeyAppPlugin extends CordovaPlugin {
 	protected static final String LOG_TAG = "HockeyAppPlugin";
+    public static boolean initialized = false;
 	private String hockeyAppId;
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
         
         int appResId = cordova.getActivity().getResources().getIdentifier("hockey_app_id", "string", cordova.getActivity().getPackageName());
-+        hockeyAppId = cordova.getActivity().getString(appResId);
+        hockeyAppId = cordova.getActivity().getString(appResId);
         if(isHockeyAppIdValid()) {
 	  _checkForCrashes();
 	  _checkForUpdates();
+        FeedbackManager.register(cordova.getActivity(), hockeyAppId, null);
+        initialized = true;
         Tracking.startUsage(cordova.getActivity());
 		Log.d(LOG_TAG, "HockeyApp Plugin initialized");
         }
@@ -52,7 +55,23 @@ public class HockeyAppPlugin extends CordovaPlugin {
           throw new RuntimeException("Test crash at " + df.format(c.getTime()));
         }
       }).start();
-    }else{
+    }else if(action.equals("feedback")) {
+            if(initialized) {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FeedbackManager.showFeedbackActivity(cordova.getActivity());
+                    }
+                });
+                callbackContext.success();
+                 }
+        else{
+        callbackContext.error("cordova hockeyapp plugin not initialized, call start() first");
+                ret=false;
+        }
+            
+        }
+      else{
       callbackContext.error(LOG_TAG + " error: invalid action (" + action + ")");
       ret=false;
     }

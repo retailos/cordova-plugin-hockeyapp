@@ -17,6 +17,7 @@ static NSString *const kHockeyAppPluginAppReachedTerminateEventKey = @"AppReache
 #pragma mark Initialization
 
 - (void)pluginInitialize {
+    initialized=NO;
     NSString *hockeyAppKey = self.hockeyAppID;
     if(hockeyAppKey && ![hockeyAppKey isEqualToString:@""]) {
         // hack to prevent sending crash report for crashes that occur when app is shutting down
@@ -46,6 +47,7 @@ static NSString *const kHockeyAppPluginAppReachedTerminateEventKey = @"AppReache
         [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:hockeyAppKey];
         [[BITHockeyManager sharedHockeyManager] startManager];
         [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+        initialized = YES;
     }
     
     NSLog(@"HockeyApp Plugin initialized");
@@ -63,6 +65,19 @@ static NSString *const kHockeyAppPluginAppReachedTerminateEventKey = @"AppReache
 - (void)forcecrash:(CDVInvokedUrlCommand *)command {
   NSLog(@"HockeyApp Plugin crashing the app!");
   __builtin_trap();
+}
+
+- (void) feedback:(CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult = nil;
+    if(initialized == YES) {
+        [[BITHockeyManager sharedHockeyManager].feedbackManager showFeedbackListView];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"hockeyapp cordova plugin is not started!"];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 #pragma mark - Hockey app identifier methods
