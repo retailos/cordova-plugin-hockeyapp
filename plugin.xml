@@ -35,6 +35,7 @@ version="0.1.1">
     </config-file>
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
       <activity android:name="net.hockeyapp.android.UpdateActivity" />
+      <activity android:name="net.hockeyapp.android.FeedbackActivity" />
     </config-file>
 
     <source-file src="src/android/HockeyAppPlugin.java" target-dir="src/org/nypr/cordova/hockeyappplugin/" />
