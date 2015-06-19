@@ -14,7 +14,8 @@ version="0.1.1">
   <clobbers target="hockeyapp"/>
 </js-module>
     <!-- add value="" -->
-<preference name="HOCKEY_APP_ID"/>
+<preference name="DROID_APPID"/>
+<preference name="IOS_APPID"/>
 <!-- android -->
 <platform name="android">
     <config-file target="res/xml/config.xml" parent="/*">
@@ -25,7 +26,7 @@ version="0.1.1">
     </config-file>
     <source-file src="src/android/res/values/hockeyappplugin.xml" target-dir="res/values" />
    <config-file target="res/values/hockeyappplugin.xml" parent="/*">
-     <string name="hockey_app_id">$HOCKEY_APP_ID</string>
+     <string name="droid_appid">$DROID_APPID</string>
    </config-file>
     <config-file target="AndroidManifest.xml" parent="/*">
       <uses-permission android:name="android.permission.INTERNET" />
@@ -52,7 +53,7 @@ version="0.1.1">
     </config-file>
 
     <config-file target="*-Info.plist" parent="HockeyAppID">
-        <string>$HOCKEY_APP_ID</string>
+        <string>$IOS_APPID</string>
     </config-file>
     
     <header-file src="src/ios/HockeyAppPlugin.h" />

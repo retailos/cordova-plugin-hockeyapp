@@ -25,7 +25,7 @@ public class HockeyAppPlugin extends CordovaPlugin {
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
         
-        int appResId = cordova.getActivity().getResources().getIdentifier("hockey_app_id", "string", cordova.getActivity().getPackageName());
+        int appResId = cordova.getActivity().getResources().getIdentifier("droid_appid", "string", cordova.getActivity().getPackageName());
         hockeyAppId = cordova.getActivity().getString(appResId);
         if(isHockeyAppIdValid()) {
 	  _checkForCrashes();
