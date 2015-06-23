@@ -12,10 +12,10 @@ SDK documentation and integration guides for IOS and Android:
 http://support.hockeyapp.net/kb/client-integration-ios-mac-os-x/hockeyapp-for-ios  
 http://support.hockeyapp.net/kb/client-integration-android-other-platforms/hockeyapp-for-android-sdk  
 
-Current Hockey SDK Versions
+####Hockey SDK Versions
 
-iOS 3.5.4
-Android 3.5.
+	iOS - 3.5.4
+	Android -  3.5.0
 
 ## Installation
 
